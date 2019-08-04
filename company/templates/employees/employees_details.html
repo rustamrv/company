@@ -1,0 +1,28 @@
+ {% extends 'employees/index.html' %}
+{% load staticfiles %}
+ % load static %}
+
+ {% block content %}
+ <div class="container mt-5">
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{instance}} </h5>
+            <p class="cart-text">position: {{instance.position}}</p>
+            <p class="cart-text">employment date: {{instance.employment_date}}</p>
+            <p class="cart-test">department: {{instance.department}}</p>
+            <p class="cart-text">salary: {{ instance.get_salary }}</p>
+            {% if instance.is_image %}
+                <img src="..{{instance.get_image}}" class="image" height="350" width="250" border="1">
+            {% else %}
+                <img src="../media/profile_image/аватар.png" class="image" height="250" width="250" border="1">
+             {% endif %}
+
+        </div>
+        <div class="card-body">
+           <a href=".." class="btn btn-light left">Back</a>
+        </div>
+
+    </div>
+</div>
+ {% endblock%}

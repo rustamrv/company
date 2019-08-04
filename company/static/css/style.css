@@ -1,0 +1,48 @@
+.admin-panel {
+    border: 1px solid #999;
+    border-redius: 1px;
+    position: fixed;
+    right: 50px;
+    bottom: 30px;
+    opacity: 0.3;
+    padding: 15px;
+}
+.admin-panel:hover{
+    opacity: 1;
+}
+.admin-panel a{
+    display: block;
+    margin: 5px 0;
+}
+.employees{
+   height: 40px;
+   margin: 5px;
+   box-shadow: 8px 8px 5px #444;
+   padding: -20px 12px;
+   border: 1px solid black;
+   background: rgb(79, 196, 86);
+   border-radius:30px;
+}
+#dd{
+    font-family: "Times New Roman";
+    color: white;
+    margin: 3.5px;
+    padding-left: 25px;
+}
+#box{
+    background-color: #212529;
+    border: 3px solid #fff;
+    border-radius:30px;
+    box-shadow: 8px 8px 5px #444;
+}
+#link{
+    padding: 20px;
+    font-family: "Times New Roman";
+    font-weight: "bolder";
+    font-size:18px;
+    color: white;
+}
+
+.auth{
+    margin: 10px;
+}

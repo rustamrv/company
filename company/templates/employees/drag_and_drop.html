@@ -1,0 +1,69 @@
+ {% extends 'employees/index.html' %}
+{% load staticfiles %}
+ {%block search_form %}
+
+            {% if user.is_active %}
+                <a class="btn btn-outline-info my-2 my-sm-0 auth" href="../../admin/logout/">Выйти {{user.username}}</a>
+            {% else %}
+                <a class="btn btn-outline-info my-2 my-sm-0 auth" href="../../admin/login/">Войти</a>
+            {% endif %}
+
+ {%endblock%}
+{% block content %}
+<div class="container mt-5" id="result">
+    {% for t in data %}
+    <div id="box"  ondrop="drop(event,'{{t.id}}')" ondragover="allowDrow(event)">
+        <a href="javascript::" id="link" onClick="toggle_show('{{t.id}}')">{{t.name}}</a>
+    </div>
+            <div class="drag" id="{{t.id}}" style="display: none">
+                    {% for w in t.get_emp %}
+                    <div class="employees"  id="{{w.id}}" draggable="true" ondragstart="drag(event)" >
+                         <p id="dd">{{w }} ~ {{ w.premium}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+    {% endfor %}
+</div>
+
+ {%endblock%}
+ {% block admin-panel %}
+    {% if user.is_active %}
+    <div class="admin-panel align-items-center">
+        <a href="../create" class="btn btn-light">Create</a>
+    </div>
+    {% endif %}
+      {% endblock %}
+
+  {% block add_script %}
+  <script>
+    function toggle_show(id) {
+        document.getElementById(id).style.display = document.getElementById(id).style.display == 'none' ? 'block' : 'none';
+    }
+    function allowDrow(ev) {
+        ev.preventDefault();
+    }
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev, position) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+
+        $.ajax({
+            type: 'GET',
+            async: true,
+            url: 'update_employee',
+            data: {
+                employees: data,
+                position: position,
+            },
+            success: function (data) {
+                $("#result").html(data)
+            },
+            error: function (xhr, status, e) {
+                alert(status);
+            },
+        });
+    }
+    </script>
+ {% endblock %}

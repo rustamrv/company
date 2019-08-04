@@ -1,0 +1,12 @@
+{% extends 'employees/index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container mt-5">
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+    {{form.as_p}}
+ <input type="submit" value="create employee" />
+</form>
+    </div>
+ {%endblock%}

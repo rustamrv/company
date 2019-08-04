@@ -1,0 +1,118 @@
+ {% extends 'employees/index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container mt-5" id="result">
+    {% for t in data %}
+        <div class="card">
+            <div class="card-body">
+                <a href="{{t.get_url}}" class="card-title">{{t}} </a>
+                <p class="cart-text">position: {{t.position}}</p>
+                <p class="cart-text">employment date: {{t.employment_date}}</p>
+                <p class="cart-test">department: {{t.department}}</p>
+                <p class="cart-text">salary: {{ t.get_salary }}</p>
+            </div>
+        </div>
+{% endfor %}
+</div>
+
+ {%endblock%}
+ {% block add_script %}
+
+<div class="container">
+     <ul class="pagination justify-content-center">
+        <span class="step-links">
+        {% if data.has_previous %}
+            <a href="?page={{ pos.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ data.number }} of {{ data.paginator.num_pages }}.
+        </span>
+
+        {% if data.has_next %}
+            <a href="?page={{ pos.next_page_number }}">next</a>
+        {% endif %}
+        </span>
+     </ul>
+</div>
+
+<style type="text/css">
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+  </style>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('.target').change(function(){
+           page = 1
+           sort_by = $('#sortBy').val()
+           search = $('#search_input').val()
+           $.ajax({
+                type: 'GET',
+                async: true,
+                url: 'sort',
+                data: {
+                    ajax: true,
+                    page: page,
+                    sort_by: sort_by,
+                    search: search,
+                },
+                success: function (data) {
+                    $("#result").html(data)
+                    $('#search_form select').val(sort_by)
+                },
+                error: function (xhr, status, e) {
+                    alert(status);
+                },
+                dataType: '',
+           });
+        });
+        $('.search').click(function(){
+           sort_by = $('#sortBy').val()
+           search = $('#search_input').val()
+           page = 1
+           $.ajax({
+                type: 'GET',
+                async: true,
+                url: 'searches_list',
+                data: {
+                    ajax: true,
+                    sort_by: sort_by,
+                    page: page,
+                    search: search,
+                },
+                success: function (data) {
+                    $("#result").html(data)
+                    $('#search_form select').val(sort_by)
+                },
+                error: function (xhr, status, e) {
+                    alert(status);
+                },
+                dataType: '',
+           });
+        });
+        $(".image").click(function(){	// Событие клика на маленькое изображение
+	  	    var img = $(this);	// Получаем изображение, на которое кликнули
+		    var src = img.attr('src'); // Достаем из этого изображения путь до картинки
+		    $("body").append("<div class='popup'>"+ //Добавляем в тело документа разметку всплывающего окна
+						 "<div class='popup_bg'></div>"+ // Блок, который будет служить фоном затемненным
+						 "<img src='"+src+"' class='popup_img' />"+ // Само увеличенное фото
+						 "</div>");
+		    $(".popup").fadeIn(800); // Медленно выводим изображение
+		    $(".popup_bg").click(function(){	// Событие клика на затемненный фон
+			    $(".popup").fadeOut(800);	// Медленно убираем всплывающее окно
+			    setTimeout(function() {	// Выставляем таймер
+			     $(".popup").remove(); // Удаляем разметку всплывающего окна
+			    }, 800);
+		    });
+	    });
+    });
+    </script>
+{% endblock %}
