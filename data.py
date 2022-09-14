@@ -60,11 +60,11 @@ def create_employees(name, surname, position, department, employment_date, premi
     emp.save()
 
 
-# for i in pos:
-#     create_position(i['name'], i['parent'], i['salary'])
-#
-# for i in list_depart:
-#     create_dept(i)
+for i in pos:
+    create_position(i['name'], i['parent'], i['salary'])
+
+for i in list_depart:
+    create_dept(i)
 
 pos_boss = Position.objects.get(name='Boss')
 dept = Department.objects.get(name='Administration department')
